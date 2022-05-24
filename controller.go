@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"reflect"
 )
@@ -11,7 +10,6 @@ import (
 func getPing(w http.ResponseWriter, req *http.Request) {
 	ism := CreatePingMonitor()
 	dp := ism.read()
-	fmt.Println(dp)
 	jsonDatapoint, _ := json.Marshal(dp)
 	fmt.Fprintf(w, string(jsonDatapoint))
 }
@@ -19,7 +17,6 @@ func getPing(w http.ResponseWriter, req *http.Request) {
 func getSpeed(w http.ResponseWriter, req *http.Request) {
 	ism := CreateSpeedMonitor()
 	dp := ism.read()
-	fmt.Println(dp)
 	jsonDatapoint, _ := json.Marshal(dp)
 	fmt.Fprintf(w, string(jsonDatapoint))
 }
@@ -29,8 +26,6 @@ func ChanToSlice(ch interface{}) interface{} {
 	slv := reflect.MakeSlice(reflect.SliceOf(reflect.TypeOf(ch).Elem()), 0, 0)
 	for {
 		v, ok := chv.Recv()
-		log.Println(v)
-		log.Println(ok)
 		if !ok {
 			return slv.Interface()
 		}

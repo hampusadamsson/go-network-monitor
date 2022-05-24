@@ -18,14 +18,14 @@ type InternetSpeedMonitor struct {
 func CreateSpeedMonitor() InternetSpeedMonitor {
 	ttl := time.Minute * 30
 	tmp := RealFetcher{}
-	ism := InternetSpeedMonitor{logFilename: "log/data.log", timeBetweenPolls: ttl, fetcher: &tmp, datapointsToRead: 10}
+	ism := InternetSpeedMonitor{logFilename: "log/data.log", timeBetweenPolls: ttl, fetcher: &tmp, datapointsToRead: 15}
 	return ism
 }
 
 func CreatePingMonitor() InternetSpeedMonitor {
 	ttl := time.Second * 30
 	tmp := PingFetcher{addr: "www.google.com"}
-	ism := InternetSpeedMonitor{logFilename: "log/dataping.log", timeBetweenPolls: ttl, fetcher: &tmp, datapointsToRead: 10}
+	ism := InternetSpeedMonitor{logFilename: "log/dataping.log", timeBetweenPolls: ttl, fetcher: &tmp, datapointsToRead: 15}
 	return ism
 }
 
@@ -38,9 +38,9 @@ func CreateDummy() InternetSpeedMonitor {
 
 func (ism InternetSpeedMonitor) start() {
 	for {
-		time.Sleep(ism.timeBetweenPolls)
 		dataPoint := ism.fetchNetworkSpeed()
 		ism.save(dataPoint)
+		time.Sleep(ism.timeBetweenPolls)
 	}
 }
 
